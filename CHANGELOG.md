@@ -9,6 +9,8 @@ verified throughout against a real Medusa server rather than mocks.
 
 ### Added
 
+- Committed lockfile for the Medusa test instance, so the integration environment builds
+  deterministically instead of resolving its dependency tree fresh on every run.
 - Region, Sales Channel, Price List and Promotion resources, completing the first release's
   commerce configuration coverage.
 - Order resource with read, update, line items, change history, and the Complete, Cancel and
