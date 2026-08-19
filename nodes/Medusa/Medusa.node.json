@@ -1,0 +1,18 @@
+{
+	"node": "@blackswampai/n8n-nodes-medusa.medusa",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": ["Sales"],
+	"resources": {
+		"credentialDocumentation": [
+			{
+				"url": "https://github.com/BlackSwampAI/n8n-nodes-medusa#credentials"
+			}
+		],
+		"primaryDocumentation": [
+			{
+				"url": "https://github.com/BlackSwampAI/n8n-nodes-medusa"
+			}
+		]
+	}
+}
