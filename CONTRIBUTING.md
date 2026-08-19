@@ -30,6 +30,19 @@ suite still runs for contributors without Docker.
 Integration tests read `MEDUSA_BASE_URL` and `MEDUSA_API_TOKEN` from the environment, falling
 back to `.env.test`.
 
+**Vitest is pinned to 3.x on purpose.** Vitest 4 pulls in `rolldown`, and rolldown 1.2.5 declares
+optional platform binaries — `@rolldown/binding-darwin-x64` and `@rolldown/binding-linux-arm64-gnu`
+— that were never published for that version. `npm install` omits them from the lockfile because
+they do not exist, and `npm ci` then refuses to install at all, on every machine and in CI:
+
+```
+npm error `npm ci` can only install packages when your package.json and
+npm error package-lock.json are in sync.
+npm error Missing: @rolldown/binding-darwin-x64@ from lock file
+```
+
+Upgrade to 4.x only after confirming that rolldown's published binaries match what it declares.
+
 ### Writing tests under the n8n lint rules
 
 The n8n community-node lint rules apply to **every `.ts` file in the repository**, and strict
