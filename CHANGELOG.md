@@ -2,7 +2,10 @@
 
 All notable changes to this project are documented in this file.
 
-## [Unreleased]
+## [0.1.0] — 2026-08-19
+
+First release. Fourteen resources and eighty-five operations against the Medusa v2 Admin API,
+verified throughout against a real Medusa server rather than mocks.
 
 ### Added
 
