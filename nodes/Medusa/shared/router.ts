@@ -14,6 +14,10 @@ import { inventoryItemOperations } from '../resources/inventoryItem';
 import { stockLocationOperations } from '../resources/stockLocation';
 import { orderOperations } from '../resources/order';
 import { fulfillmentOperations } from '../resources/fulfillment';
+import { regionOperations } from '../resources/region';
+import { salesChannelOperations } from '../resources/salesChannel';
+import { priceListOperations } from '../resources/priceList';
+import { promotionOperations } from '../resources/promotion';
 import type { OperationHandlers } from './types';
 
 const resources: Record<string, OperationHandlers> = {
@@ -27,6 +31,10 @@ const resources: Record<string, OperationHandlers> = {
 	stockLocation: stockLocationOperations,
 	order: orderOperations,
 	fulfillment: fulfillmentOperations,
+	region: regionOperations,
+	salesChannel: salesChannelOperations,
+	priceList: priceListOperations,
+	promotion: promotionOperations,
 };
 
 /**
