@@ -12,6 +12,8 @@ import { customerOperations } from '../resources/customer';
 import { customerGroupOperations } from '../resources/customerGroup';
 import { inventoryItemOperations } from '../resources/inventoryItem';
 import { stockLocationOperations } from '../resources/stockLocation';
+import { orderOperations } from '../resources/order';
+import { fulfillmentOperations } from '../resources/fulfillment';
 import type { OperationHandlers } from './types';
 
 const resources: Record<string, OperationHandlers> = {
@@ -23,6 +25,8 @@ const resources: Record<string, OperationHandlers> = {
 	customerGroup: customerGroupOperations,
 	inventoryItem: inventoryItemOperations,
 	stockLocation: stockLocationOperations,
+	order: orderOperations,
+	fulfillment: fulfillmentOperations,
 };
 
 /**

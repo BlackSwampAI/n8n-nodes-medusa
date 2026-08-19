@@ -6,6 +6,8 @@ All notable changes to this project are documented in this file.
 
 ### Added
 
+- Order resource with read, update, line items, change history, and the Complete, Cancel and
+  Archive transitions; Fulfillment resource with create, shipment, delivery and cancellation.
 - Inventory Item resource with CRUD plus location level operations, including a Set Location Level
   that creates or updates as needed, and Stock Location with CRUD and sales channel assignment.
 - Customer and Customer Group resources with Create, Get, Get Many, Update, Delete, and

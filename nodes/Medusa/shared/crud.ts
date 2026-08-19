@@ -161,6 +161,26 @@ export function makeDelete(config: CrudConfig): OperationHandler {
 }
 
 /**
+ * Performs a state transition, which Medusa exposes as POST to a named sub-route.
+ *
+ * Transitions are separate operations rather than a writable status field because Medusa refuses
+ * `status` in an update body outright, and because each one has its own preconditions that only
+ * the server can judge.
+ */
+export function makeAction(config: CrudConfig, action: string): OperationHandler {
+	return async function transition(this: IExecuteFunctions, index: number): Promise<JsonObject> {
+		const id = this.getNodeParameter(config.idParameter, index) as string;
+
+		const response = await medusaApiRequest.call(this, 'POST', `${config.path}/${id}/${action}`, {
+			body: {},
+			resource: config.resourceLabel,
+			resourceId: id,
+		});
+		return (response[config.responseKey] ?? response) as JsonObject;
+	};
+}
+
+/**
  * Adds and removes members in a single call, which is what Medusa's assignment routes accept.
  *
  * These are first-class operations rather than a corner of Update, because attaching products to a
