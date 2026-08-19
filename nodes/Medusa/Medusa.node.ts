@@ -15,6 +15,10 @@ import { inventoryItemDescription } from './resources/inventoryItem';
 import { stockLocationDescription } from './resources/stockLocation';
 import { orderDescription } from './resources/order';
 import { fulfillmentDescription } from './resources/fulfillment';
+import { regionDescription } from './resources/region';
+import { salesChannelDescription } from './resources/salesChannel';
+import { priceListDescription } from './resources/priceList';
+import { promotionDescription } from './resources/promotion';
 import { routeOperations } from './shared/router';
 
 export class Medusa implements INodeType {
@@ -51,10 +55,14 @@ export class Medusa implements INodeType {
 					{ name: 'Fulfillment', value: 'fulfillment' },
 					{ name: 'Inventory Item', value: 'inventoryItem' },
 					{ name: 'Order', value: 'order' },
+					{ name: 'Price List', value: 'priceList' },
 					{ name: 'Product', value: 'product' },
 					{ name: 'Product Category', value: 'productCategory' },
 					{ name: 'Product Collection', value: 'productCollection' },
 					{ name: 'Product Variant', value: 'productVariant' },
+					{ name: 'Promotion', value: 'promotion' },
+					{ name: 'Region', value: 'region' },
+					{ name: 'Sales Channel', value: 'salesChannel' },
 					{ name: 'Stock Location', value: 'stockLocation' },
 				],
 			},
@@ -68,6 +76,10 @@ export class Medusa implements INodeType {
 			...stockLocationDescription,
 			...orderDescription,
 			...fulfillmentDescription,
+			...regionDescription,
+			...salesChannelDescription,
+			...priceListDescription,
+			...promotionDescription,
 		],
 	};
 

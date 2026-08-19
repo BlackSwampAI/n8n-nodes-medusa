@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { Medusa } from '../../nodes/Medusa/Medusa.node';
-import { buildFulfillmentItems } from '../../nodes/Medusa/resources/fulfillment';
-import { orderDescription, orderOperations } from '../../nodes/Medusa/resources/order';
 import {
+	buildFulfillmentItems,
 	fulfillmentDescription,
 	fulfillmentOperations,
 } from '../../nodes/Medusa/resources/fulfillment';
+import { orderDescription, orderOperations } from '../../nodes/Medusa/resources/order';
 
 describe('buildFulfillmentItems', () => {
 	it('maps the collection into the array Medusa expects', () => {

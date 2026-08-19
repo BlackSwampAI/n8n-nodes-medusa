@@ -6,6 +6,8 @@ All notable changes to this project are documented in this file.
 
 ### Added
 
+- Region, Sales Channel, Price List and Promotion resources, completing the first release's
+  commerce configuration coverage.
 - Order resource with read, update, line items, change history, and the Complete, Cancel and
   Archive transitions; Fulfillment resource with create, shipment, delivery and cancellation.
 - Inventory Item resource with CRUD plus location level operations, including a Set Location Level
