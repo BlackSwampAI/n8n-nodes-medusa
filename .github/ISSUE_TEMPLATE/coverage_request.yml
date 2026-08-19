@@ -1,0 +1,62 @@
+name: Resource or operation request
+description: Ask for a Medusa resource or operation the node does not cover yet
+labels: ['enhancement', 'coverage']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The first release covers fourteen resources. Plenty of Medusa's Admin API is deliberately
+        left out, and what gets added next is decided by what people actually ask for — so this
+        form is genuinely read rather than filed away.
+
+        Already known to be missing, and planned: returns, exchanges, claims, order edits, draft
+        orders, campaigns, promotion rule builders, reservations, batch operations, and product
+        import/export. Adding a note here still helps, because it tells us which of those to do
+        first.
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What is missing
+      description: The Medusa resource or operation you need. An Admin API route is ideal if you know it.
+      placeholder: |
+        Returns — specifically creating a return request and marking it received.
+        POST /admin/returns and POST /admin/returns/{id}/receive
+    validations:
+      required: true
+
+  - type: textarea
+    id: workflow
+    attributes:
+      label: What workflow would this enable
+      description: |
+        The most useful part of this form. Knowing what you are trying to build shapes how the
+        operation gets designed — which fields are exposed, what the output looks like, and which
+        of several possible endpoints is the right one.
+      placeholder: |
+        When a customer requests a return in our helpdesk, create the matching return in Medusa
+        and notify the warehouse. Today we do this by hand for about thirty returns a week.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: workaround
+    attributes:
+      label: Are you working around it today?
+      options:
+        - Yes, with an HTTP Request node
+        - Yes, outside n8n entirely
+        - No, this blocks the workflow
+        - Not started yet
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues and this is not already requested
+          required: true
+        - label: This is the Admin API, not the Store API (carts, checkout and storefront browsing are out of scope)
+          required: true

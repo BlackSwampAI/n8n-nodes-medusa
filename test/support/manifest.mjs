@@ -51,3 +51,9 @@ export const codex = JSON.parse(
 
 /** package.json, for release checks. */
 export const manifest = packageJson;
+
+/** The bug report issue form, so its resource dropdown can be checked against the node. */
+export const bugReportForm = readFileSync(
+	resolve(root, '.github/ISSUE_TEMPLATE/bug_report.yml'),
+	'utf8',
+);

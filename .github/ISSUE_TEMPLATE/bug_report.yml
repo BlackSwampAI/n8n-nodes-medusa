@@ -1,0 +1,126 @@
+name: Bug report
+description: Something in the node does not work, or works differently than documented
+labels: ['bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this.
+
+        **Do not paste your API token.** It appears in credential screenshots and sometimes in
+        request logs. Replace it with `sk_...` before pasting anything.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What did you expect, and what did you get instead?
+      placeholder: |
+        I ran Product → Get Many with a Status filter of Draft and expected only draft
+        products. I got every product regardless of status.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: resource
+    attributes:
+      label: Resource
+      description: Which resource is affected? Choose Credential for connection and authentication problems.
+      options:
+        - Credential / connection
+        - Customer
+        - Customer Group
+        - Fulfillment
+        - Inventory Item
+        - Order
+        - Price List
+        - Product
+        - Product Category
+        - Product Collection
+        - Product Variant
+        - Promotion
+        - Region
+        - Sales Channel
+        - Stock Location
+        - Something else / not sure
+    validations:
+      required: true
+
+  - type: input
+    id: operation
+    attributes:
+      label: Operation
+      description: Which operation, as it appears in the node?
+      placeholder: Get Many
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: The field values you used are usually the most useful part.
+      placeholder: |
+        1. Add a Medusa node, Resource = Product, Operation = Get Many
+        2. Return All off, Limit 50
+        3. Filters → Status = Draft
+        4. Execute
+    validations:
+      required: true
+
+  - type: textarea
+    id: error
+    attributes:
+      label: Error message
+      description: The full message from the node, if there was one. Token redacted.
+      render: text
+
+  - type: input
+    id: node-version
+    attributes:
+      label: Node package version
+      description: The version of @blackswampai/n8n-nodes-medusa you have installed.
+      placeholder: 0.1.0
+    validations:
+      required: true
+
+  - type: input
+    id: n8n-version
+    attributes:
+      label: n8n version
+      placeholder: 1.60.0
+    validations:
+      required: true
+
+  - type: input
+    id: medusa-version
+    attributes:
+      label: Medusa version
+      description: Found in your Medusa project's package.json, under @medusajs/medusa.
+      placeholder: 2.19.0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: hosting
+    attributes:
+      label: How is Medusa hosted?
+      options:
+        - Self-hosted, reachable over the internet
+        - Self-hosted, local or private network
+        - Managed hosting
+        - Not sure
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues and this is not a duplicate
+          required: true
+        - label: My credential uses a **secret** API key, not a publishable one
+          required: true
+        - label: I removed any API token from the text above
+          required: true
