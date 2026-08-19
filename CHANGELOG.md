@@ -6,6 +6,8 @@ All notable changes to this project are documented in this file.
 
 ### Added
 
+- Inventory Item resource with CRUD plus location level operations, including a Set Location Level
+  that creates or updates as needed, and Stock Location with CRUD and sales channel assignment.
 - Customer and Customer Group resources with Create, Get, Get Many, Update, Delete, and
   membership operations that work from either side of the relationship.
 - Product Category and Product Collection resources, each with Create, Get, Get Many, Update,
