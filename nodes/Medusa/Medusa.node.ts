@@ -6,6 +6,7 @@ import {
 	type INodeTypeDescription,
 } from 'n8n-workflow';
 import { productDescription } from './resources/product';
+import { variantDescription } from './resources/productVariant';
 import { routeOperations } from './shared/router';
 
 export class Medusa implements INodeType {
@@ -36,9 +37,13 @@ export class Medusa implements INodeType {
 				type: 'options',
 				noDataExpression: true,
 				default: 'product',
-				options: [{ name: 'Product', value: 'product' }],
+				options: [
+					{ name: 'Product', value: 'product' },
+					{ name: 'Product Variant', value: 'productVariant' },
+				],
 			},
 			...productDescription,
+			...variantDescription,
 		],
 	};
 

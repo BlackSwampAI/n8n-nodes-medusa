@@ -43,9 +43,26 @@ variant titles, so creating a product needs only a title, a variant name and a p
 that genuinely vary along several dimensions — size _and_ colour — can supply the axes explicitly
 through the Product Options and Variant Options fields.
 
+### Product Variant
+
+| Operation | Notes                                                                        |
+| --------- | ---------------------------------------------------------------------------- |
+| Create    | On an existing product; requires a title and at least one price              |
+| Get       | By product ID and variant ID                                                 |
+| Get Many  | Variants of one product, or across every product when no product ID is given |
+| Update    | Title, SKU, barcodes, inventory tracking, metadata, and the full price list  |
+| Delete    | By product ID and variant ID                                                 |
+
+Variants are always addressed through their product, because that is how Medusa's API is shaped.
+The cross-product route used by Get Many is the one exception, and it cannot filter by product —
+supply a Product ID and the node switches to that product's own route instead.
+
+Medusa will not invent option values. A variant can only use option values already declared on its
+product, so add the value to the product first if it is new.
+
 More resources are being added a milestone at a time. Planned for the first release:
 
-- **Catalog** — Product Variant, Product Category, Product Collection
+- **Catalog** — Product Category, Product Collection
 - **Customers** — Customer, Customer Group
 - **Orders** — read, update, cancel, complete, archive, and order fulfillment actions
 - **Inventory** — Inventory Item, location levels, Stock Location

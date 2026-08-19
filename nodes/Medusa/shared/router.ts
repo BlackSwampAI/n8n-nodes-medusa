@@ -5,10 +5,12 @@ import {
 	type INodeExecutionData,
 } from 'n8n-workflow';
 import { productOperations } from '../resources/product';
+import { variantOperations } from '../resources/productVariant';
 import type { OperationHandlers } from './types';
 
 const resources: Record<string, OperationHandlers> = {
 	product: productOperations,
+	productVariant: variantOperations,
 };
 
 /**

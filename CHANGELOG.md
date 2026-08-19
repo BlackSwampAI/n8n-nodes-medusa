@@ -6,6 +6,8 @@ All notable changes to this project are documented in this file.
 
 ### Added
 
+- Product Variant resource with Create, Get, Get Many, Update and Delete operations, addressed
+  through the parent product.
 - Product resource with Create, Get, Get Many, Update and Delete operations, including filters for
   search, status, handle, category, collection and created/updated dates.
 - Shared transport for the Medusa Admin API: base URL normalisation, a reusable pagination loop
