@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { Medusa } from '../../nodes/Medusa/Medusa.node';
-import { codex, manifest, readme } from '../support/manifest.mjs';
+import { bugReportForm, codex, manifest, readme } from '../support/manifest.mjs';
 
 const description = new Medusa().description;
 const resources = (
@@ -37,6 +37,24 @@ describe('README keeps up with the node', () => {
 	it('explains why there is no trigger', () => {
 		expect(readme).toMatch(/no trigger/i);
 		expect(readme).toMatch(/webhook/i);
+	});
+});
+
+// A report that cannot name the right resource is harder to act on, and the dropdown is exactly
+// the sort of list that is forgotten when a resource is added.
+describe('the bug report form keeps up with the node', () => {
+	for (const resource of resources) {
+		it(`offers ${resource.name}`, () => {
+			expect(bugReportForm).toContain(`- ${resource.name}`);
+		});
+	}
+
+	it('lets someone report a credential problem, which belongs to no resource', () => {
+		expect(bugReportForm).toContain('Credential / connection');
+	});
+
+	it('asks people not to paste their API token', () => {
+		expect(bugReportForm).toMatch(/do not paste your API token/i);
 	});
 });
 

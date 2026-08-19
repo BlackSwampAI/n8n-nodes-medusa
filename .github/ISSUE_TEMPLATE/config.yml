@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Question about n8n itself
+    url: https://community.n8n.io/
+    about: Workflow, expression and n8n platform questions are better answered by the n8n community forum.
+  - name: Question about Medusa itself
+    url: https://docs.medusajs.com/
+    about: Medusa server setup, modules and Admin API semantics are documented by Medusa.
+  - name: Security issue
+    url: https://github.com/BlackSwampAI/n8n-nodes-medusa/security/advisories/new
+    about: Report vulnerabilities privately rather than in a public issue.
