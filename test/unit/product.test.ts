@@ -1,4 +1,6 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+import type { IExecuteFunctions } from 'n8n-workflow';
+import { getProduct } from '../../nodes/Medusa/resources/product/get';
 import { buildProductOptions } from '../../nodes/Medusa/resources/product/create';
 import { buildProductQuery } from '../../nodes/Medusa/resources/product/getAll';
 import { productDescription, productOperations } from '../../nodes/Medusa/resources/product';
@@ -33,6 +35,36 @@ describe('buildProductOptions', () => {
 		);
 		expect(built.options).toHaveLength(2);
 		expect(built.variantOptions).toEqual([{ Size: 'S', Colour: 'Red' }]);
+	});
+});
+
+// Medusa has two idioms for a missing record: an explicit 404, and 200 with an empty envelope.
+// Which one a route uses is not recorded in the OpenAPI specification, and 18 of the 59 admin
+// get-by-id routes use the second. Products use the first today; this pins the node's behaviour
+// so it does not depend on that staying true.
+describe('getProduct when the envelope is empty', () => {
+	function contextReturning(body: unknown) {
+		return {
+			getNode: () => ({ name: 'Medusa' }),
+			getNodeParameter: (name: string, _index: number, fallback?: unknown) =>
+				name === 'productId' ? 'prod_missing' : fallback,
+			getCredentials: async () => ({ baseUrl: 'https://example.com', apiToken: 'sk_test' }),
+			helpers: { httpRequestWithAuthentication: vi.fn(async () => body) },
+		} as unknown as IExecuteFunctions;
+	}
+
+	it('reports not found rather than emitting an empty item', async () => {
+		await expect(getProduct.call(contextReturning({}), 0)).rejects.toThrow(
+			/product prod_missing was not found/,
+		);
+	});
+
+	it('returns the product when there is one', async () => {
+		const product = await getProduct.call(
+			contextReturning({ product: { id: 'prod_1', title: 'Chair' } }),
+			0,
+		);
+		expect(product).toMatchObject({ id: 'prod_1' });
 	});
 });
 

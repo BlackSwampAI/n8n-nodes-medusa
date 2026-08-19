@@ -112,10 +112,41 @@ matched against an existing one. The node requires an email to prevent that.
 Membership can be changed from either end — Customer → Set Groups, or Customer Group → Set
 Customers — whichever fits the workflow better.
 
+### Inventory Item
+
+| Operation             | Notes                                                               |
+| --------------------- | ------------------------------------------------------------------- |
+| Create                | Requires a SKU                                                      |
+| Get                   | By ID                                                               |
+| Get Many              | Filter by search, exact SKU, created/updated date                   |
+| Update                | SKU, title, dimensions, customs fields, metadata                    |
+| Delete                | By ID                                                               |
+| Get Location Levels   | Stock held for this item across locations                           |
+| Set Location Level    | Sets stock at one location, creating the level if it does not exist |
+| Delete Location Level | Stops tracking this item at a location                              |
+
+**Set Location Level is the operation a warehouse feed wants.** Medusa splits this across two
+routes — one that creates a level and one that updates it — and creating a level that already
+exists fails. A sync does not know which case it is in, so this operation checks and picks. That
+costs one extra request per call.
+
+Medusa refuses to delete a level while stock remains at that location. Set the stocked quantity
+to 0 first.
+
+### Stock Location
+
+| Operation          | Notes                                            |
+| ------------------ | ------------------------------------------------ |
+| Create             | Requires a name; accepts a physical address      |
+| Get                | By ID                                            |
+| Get Many           | Filter by search, exact name                     |
+| Update             | Name, address, metadata                          |
+| Delete             | By ID                                            |
+| Set Sales Channels | Add and remove the channels this location serves |
+
 More resources are being added a milestone at a time. Planned for the first release:
 
 - **Orders** — read, update, cancel, complete, archive, and order fulfillment actions
-- **Inventory** — Inventory Item, location levels, Stock Location
 - **Commerce configuration** — Region, Sales Channel, Price List, Promotion
 
 Medusa's Store API — carts, checkout and storefront browsing — is out of scope.
@@ -146,6 +177,17 @@ header for you; you only supply the token.
 - Developed and tested against Medusa 2.x. Medusa v1 uses a different Admin API and is not supported.
 
 ## Known limitations
+
+**Deleting a record that does not exist reports success.** Medusa answers every delete with
+`{ "deleted": true }` and HTTP 200, whether or not anything was there to remove:
+
+```
+DELETE /admin/products/does_not_exist  →  200  { "id": "does_not_exist", "deleted": true }
+```
+
+This is Medusa's behaviour, not the node's, and it applies to every resource. A workflow that
+branches on `deleted` is therefore confirming that the record is _gone_, not that this node removed
+it. Read the record first if you need to tell those two cases apart.
 
 Medusa has no generic outgoing webhook registration. Its events are emitted through the Event
 Module to subscribers that run inside the Medusa application itself, so there is no Admin API

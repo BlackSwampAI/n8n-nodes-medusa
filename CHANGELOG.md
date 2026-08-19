@@ -6,6 +6,8 @@ All notable changes to this project are documented in this file.
 
 ### Added
 
+- Inventory Item resource with CRUD plus location level operations, including a Set Location Level
+  that creates or updates as needed, and Stock Location with CRUD and sales channel assignment.
 - Customer and Customer Group resources with Create, Get, Get Many, Update, Delete, and
   membership operations that work from either side of the relationship.
 - Product Category and Product Collection resources, each with Create, Get, Get Many, Update,
@@ -25,6 +27,9 @@ All notable changes to this project are documented in this file.
 - `CONTRIBUTING.md` documenting the environment and its non-obvious constraints.
 
 ### Fixed
+
+- Product Get now reports a missing record rather than emitting an empty item if Medusa ever
+  returns an empty envelope for it, matching every other Get in the node.
 
 - The credential test probed `GET /admin/users/me`, which returns 404 for a valid secret API key
   because such a key authenticates as an API key rather than as a user. Every correct credential
