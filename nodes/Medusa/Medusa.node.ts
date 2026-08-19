@@ -9,6 +9,8 @@ import { productDescription } from './resources/product';
 import { variantDescription } from './resources/productVariant';
 import { categoryDescription } from './resources/productCategory';
 import { collectionDescription } from './resources/productCollection';
+import { customerDescription } from './resources/customer';
+import { customerGroupDescription } from './resources/customerGroup';
 import { routeOperations } from './shared/router';
 
 export class Medusa implements INodeType {
@@ -40,6 +42,8 @@ export class Medusa implements INodeType {
 				noDataExpression: true,
 				default: 'product',
 				options: [
+					{ name: 'Customer', value: 'customer' },
+					{ name: 'Customer Group', value: 'customerGroup' },
 					{ name: 'Product', value: 'product' },
 					{ name: 'Product Category', value: 'productCategory' },
 					{ name: 'Product Collection', value: 'productCollection' },
@@ -50,6 +54,8 @@ export class Medusa implements INodeType {
 			...variantDescription,
 			...categoryDescription,
 			...collectionDescription,
+			...customerDescription,
+			...customerGroupDescription,
 		],
 	};
 

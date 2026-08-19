@@ -1,4 +1,5 @@
 import type { IDataObject, IExecuteFunctions, INodeProperties, JsonObject } from 'n8n-workflow';
+import { buildListQuery } from '../../shared/crud';
 import { listOptionsFields, paginationFields } from '../../shared/descriptions';
 import { medusaApiRequestAllItems } from '../../shared/transport';
 
@@ -75,23 +76,7 @@ export const productGetAllDescription: INodeProperties[] = [
 	listOptionsFields('product'),
 ];
 
-/**
- * Translates the filter fields into Medusa's query syntax.
- *
- * Date ranges use the operator form `created_at[$gte]`, which is the shape Medusa expects and is
- * the reason these cannot simply be passed through as-is.
- */
-export function buildProductQuery(filters: IDataObject, options: IDataObject): IDataObject {
-	const { createdAfter, updatedAfter, ...direct } = filters;
-	const query: IDataObject = { ...direct };
-
-	if (createdAfter) query['created_at[$gte]'] = createdAfter;
-	if (updatedAfter) query['updated_at[$gte]'] = updatedAfter;
-	if (options.fields) query.fields = options.fields;
-	if (options.order) query.order = options.order;
-
-	return query;
-}
+export const buildProductQuery = buildListQuery;
 
 export async function getAllProducts(
 	this: IExecuteFunctions,

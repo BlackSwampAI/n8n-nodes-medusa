@@ -24,6 +24,25 @@ export interface CrudConfig {
 	idParameter: string;
 }
 
+/**
+ * Turns filter and option fields into a Medusa query string.
+ *
+ * Date ranges are the reason this exists rather than passing filters through untouched: Medusa
+ * expects the operator form `created_at[$gte]`, so a plain `createdAfter` value would be ignored
+ * and the workflow would silently receive everything instead of the changes since its last run.
+ */
+export function buildListQuery(filters: IDataObject, options: IDataObject): IDataObject {
+	const { createdAfter, updatedAfter, ...direct } = filters;
+	const query: IDataObject = { ...direct };
+
+	if (createdAfter) query['created_at[$gte]'] = createdAfter;
+	if (updatedAfter) query['updated_at[$gte]'] = updatedAfter;
+	if (options.fields) query.fields = options.fields;
+	if (options.order) query.order = options.order;
+
+	return query;
+}
+
 /** Parses a metadata field that may arrive as a JSON string. */
 export function parseMetadata(
 	context: IExecuteFunctions,
