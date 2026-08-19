@@ -50,11 +50,17 @@ export class MedusaApi implements ICredentialType {
 		},
 	};
 
+	// Deliberately not /admin/users/me. A secret API key authenticates as an API key rather than
+	// as a user, so the "me" route has no user to resolve and answers 404 even for a perfectly
+	// valid key — which would report every correct credential as broken. A collection route
+	// proves the same three things: the host is reachable, the Admin API is mounted, and the
+	// token carries admin scope.
 	test: ICredentialTestRequest = {
 		request: {
 			baseURL: '={{ $credentials.baseUrl.replace(/\\/+$/, "") }}',
-			url: '/admin/users/me',
+			url: '/admin/users',
 			method: 'GET',
+			qs: { limit: 1 },
 		},
 	};
 }

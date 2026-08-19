@@ -13,6 +13,41 @@ npm run lint
 npm run build
 ```
 
+## Tests
+
+```bash
+npm run test              # everything
+npm run test:unit         # no Medusa required
+npm run test:integration  # requires a running Medusa (see below)
+npm run test:watch
+npm run typecheck
+```
+
+Unit tests cover the credential definition and the package's n8n registration. Integration tests
+run against a real Medusa server and **skip rather than fail** when none is configured, so the
+suite still runs for contributors without Docker.
+
+Integration tests read `MEDUSA_BASE_URL` and `MEDUSA_API_TOKEN` from the environment, falling
+back to `.env.test`.
+
+### Writing tests under the n8n lint rules
+
+The n8n community-node lint rules apply to **every `.ts` file in the repository**, and strict
+mode forbids scoping them to `nodes/` and `credentials/`. In practice that means a `.ts` file
+anywhere may not:
+
+- use the `process` global, or
+- import node builtins such as `node:fs` and `node:path`.
+
+Test files are still TypeScript. Anything that needs those capabilities lives in a small
+JavaScript module under `test/support/`, which the rules do not cover:
+
+- `test/support/env.mjs` — reads `MEDUSA_BASE_URL` / `MEDUSA_API_TOKEN` and exposes `hasMedusa`
+- `test/support/manifest.mjs` — reads `package.json` and resolves registered entry points
+
+If a new test needs the filesystem or the environment, add it there rather than reaching for the
+builtin directly, and keep the JSDoc types current so `npm run typecheck` stays useful.
+
 ## Medusa development environment
 
 Integration work runs against a real, disposable Medusa server rather than mocks. It is defined
