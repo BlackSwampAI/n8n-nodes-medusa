@@ -6,6 +6,8 @@ All notable changes to this project are documented in this file.
 
 ### Added
 
+- Product Category and Product Collection resources, each with Create, Get, Get Many, Update,
+  Delete and an Add Products operation that adds and removes members in one call.
 - Product Variant resource with Create, Get, Get Many, Update and Delete operations, addressed
   through the parent product.
 - Product resource with Create, Get, Get Many, Update and Delete operations, including filters for
