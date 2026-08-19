@@ -1,0 +1,72 @@
+# Disposable Medusa environment for integration tests.
+#
+#   npm run medusa:up      start Postgres and Medusa, then mint an admin API token
+#   npm run medusa:down    stop and delete everything, including the database volume
+#
+# Postgres is published on 5433 rather than 5432 so it cannot collide with a Postgres already
+# running on the host.
+name: n8n-nodes-medusa-dev
+
+x-medusa-env: &medusa-env
+  # sslmode=disable is required, not cosmetic. Medusa's migration runner opens a second,
+  # single-connection pool to hold an advisory lock, and without it that connection stalls in an
+  # SSL handshake that never completes. The migration then fails with a knex pool-acquire
+  # timeout that reads like a connectivity problem, even though Postgres is reachable and the
+  # server's own connection works fine.
+  DATABASE_URL: postgres://medusa:medusa@postgres:5432/medusa?sslmode=disable
+  STORE_CORS: '*'
+  ADMIN_CORS: '*'
+  AUTH_CORS: '*'
+  JWT_SECRET: test-jwt-secret
+  COOKIE_SECRET: test-cookie-secret
+  # Medusa races its migration connection check against a timer that starts before module
+  # loading finishes. On a cold container the compile step alone can outlast the 10s default,
+  # so the check fails even though Postgres is reachable.
+  MEDUSA_DB_MIGRATION_CONNECTION_TIMEOUT: '120000'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: medusa
+      POSTGRES_PASSWORD: medusa
+      POSTGRES_DB: medusa
+    ports:
+      - '5433:5432'
+    volumes:
+      - medusa-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U medusa -d medusa']
+      interval: 3s
+      timeout: 3s
+      retries: 30
+
+  # Migrations run as a one-shot job rather than inside the server's start-up. A failed
+  # migration then surfaces as a failed container with its own logs, instead of being tangled
+  # up with a server that never becomes healthy.
+  migrate:
+    build: ./test/medusa
+    command: ['npx', 'medusa', 'db:migrate']
+    restart: 'no'
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment: *medusa-env
+
+  medusa:
+    build: ./test/medusa
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    environment: *medusa-env
+    ports:
+      - '9000:9000'
+    healthcheck:
+      test: ['CMD-SHELL', 'curl -fsS http://localhost:9000/health || exit 1']
+      interval: 5s
+      timeout: 5s
+      retries: 60
+      start_period: 60s
+
+volumes:
+  medusa-db:

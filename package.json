@@ -26,6 +26,8 @@
 		"dev": "n8n-node dev",
 		"lint": "n8n-node lint",
 		"lint:fix": "n8n-node lint --fix",
+		"medusa:up": "node scripts/medusa-dev.mjs up",
+		"medusa:down": "node scripts/medusa-dev.mjs down",
 		"release:check": "node scripts/release-check.mjs",
 		"release": "n8n-node release",
 		"prepublishOnly": "n8n-node prerelease"
