@@ -13,6 +13,54 @@ npm run lint
 npm run build
 ```
 
+## Tests
+
+```bash
+npm run test              # everything
+npm run test:unit         # no Medusa required
+npm run test:integration  # requires a running Medusa (see below)
+npm run test:watch
+npm run typecheck
+```
+
+Unit tests cover the credential definition and the package's n8n registration. Integration tests
+run against a real Medusa server and **skip rather than fail** when none is configured, so the
+suite still runs for contributors without Docker.
+
+Integration tests read `MEDUSA_BASE_URL` and `MEDUSA_API_TOKEN` from the environment, falling
+back to `.env.test`.
+
+**Vitest is pinned to 3.x on purpose.** Vitest 4 pulls in `rolldown`, and rolldown 1.2.5 declares
+optional platform binaries — `@rolldown/binding-darwin-x64` and `@rolldown/binding-linux-arm64-gnu`
+— that were never published for that version. `npm install` omits them from the lockfile because
+they do not exist, and `npm ci` then refuses to install at all, on every machine and in CI:
+
+```
+npm error `npm ci` can only install packages when your package.json and
+npm error package-lock.json are in sync.
+npm error Missing: @rolldown/binding-darwin-x64@ from lock file
+```
+
+Upgrade to 4.x only after confirming that rolldown's published binaries match what it declares.
+
+### Writing tests under the n8n lint rules
+
+The n8n community-node lint rules apply to **every `.ts` file in the repository**, and strict
+mode forbids scoping them to `nodes/` and `credentials/`. In practice that means a `.ts` file
+anywhere may not:
+
+- use the `process` global, or
+- import node builtins such as `node:fs` and `node:path`.
+
+Test files are still TypeScript. Anything that needs those capabilities lives in a small
+JavaScript module under `test/support/`, which the rules do not cover:
+
+- `test/support/env.mjs` — reads `MEDUSA_BASE_URL` / `MEDUSA_API_TOKEN` and exposes `hasMedusa`
+- `test/support/manifest.mjs` — reads `package.json` and resolves registered entry points
+
+If a new test needs the filesystem or the environment, add it there rather than reaching for the
+builtin directly, and keep the JSDoc types current so `npm run typecheck` stays useful.
+
 ## Medusa development environment
 
 Integration work runs against a real, disposable Medusa server rather than mocks. It is defined

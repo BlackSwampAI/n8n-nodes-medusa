@@ -12,8 +12,17 @@ All notable changes to this project are documented in this file.
   key and write them to `.env.test`.
 - `CONTRIBUTING.md` documenting the environment and its non-obvious constraints.
 
+### Fixed
+
+- The credential test probed `GET /admin/users/me`, which returns 404 for a valid secret API key
+  because such a key authenticates as an API key rather than as a user. Every correct credential
+  was reported as broken. It now probes `GET /admin/users?limit=1`.
+
 ### Changed
 
+- Test suite (Vitest) with unit and integration layers, a `typecheck` script, and CI that runs
+  formatting, lint, typecheck, unit tests, build, release audit, and integration tests against a
+  real Medusa server.
 - Renamed the package to `@blackswampai/n8n-nodes-medusa`.
 - Widened the release audit's package-name check to accept scoped `@scope/n8n-nodes-*` names.
 

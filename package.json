@@ -26,6 +26,11 @@
 		"dev": "n8n-node dev",
 		"lint": "n8n-node lint",
 		"lint:fix": "n8n-node lint --fix",
+		"typecheck": "tsc --noEmit -p tsconfig.test.json",
+		"test": "vitest run",
+		"test:unit": "vitest run test/unit",
+		"test:integration": "vitest run test/integration",
+		"test:watch": "vitest",
 		"medusa:up": "node scripts/medusa-dev.mjs up",
 		"medusa:down": "node scripts/medusa-dev.mjs down",
 		"release:check": "node scripts/release-check.mjs",
@@ -50,7 +55,8 @@
 		"eslint": "9.32.0",
 		"prettier": "3.6.2",
 		"release-it": "20.2.0",
-		"typescript": "5.9.2"
+		"typescript": "5.9.2",
+		"vitest": "^3.2.7"
 	},
 	"peerDependencies": {
 		"n8n-workflow": "*"
