@@ -147,6 +147,17 @@ header for you; you only supply the token.
 
 ## Known limitations
 
+**Deleting a record that does not exist reports success.** Medusa answers every delete with
+`{ "deleted": true }` and HTTP 200, whether or not anything was there to remove:
+
+```
+DELETE /admin/products/does_not_exist  →  200  { "id": "does_not_exist", "deleted": true }
+```
+
+This is Medusa's behaviour, not the node's, and it applies to every resource. A workflow that
+branches on `deleted` is therefore confirming that the record is _gone_, not that this node removed
+it. Read the record first if you need to tell those two cases apart.
+
 Medusa has no generic outgoing webhook registration. Its events are emitted through the Event
 Module to subscribers that run inside the Medusa application itself, so there is no Admin API
 route an external system can call to subscribe. This node therefore has no trigger — it is an

@@ -203,6 +203,21 @@ describeMedusa('product operations against a live Medusa server', () => {
 			).rejects.toThrow(/rejected the API token/i);
 		});
 
+		// Documents Medusa's behaviour rather than the node's: every delete reports success, whether
+		// or not anything was there to remove. Pinned here so the README's warning stays true, and
+		// so a future change upstream shows up as a failing test rather than as a silent change in
+		// what a workflow can conclude from `deleted`.
+		it('reports success when deleting a product that never existed', async () => {
+			const output = await run({
+				resource: 'product',
+				operation: 'delete',
+				productId: 'prod_never_existed',
+			});
+			const result = output[0].json as Record<string, unknown>;
+			expect(result.deleted).toBe(true);
+			expect(result.id).toBe('prod_never_existed');
+		});
+
 		// Continue On Fail is what keeps one malformed row from discarding an entire catalog sync.
 		it('reports per-item failures instead of losing the batch when Continue On Fail is set', async () => {
 			const output = await run(

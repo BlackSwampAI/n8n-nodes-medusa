@@ -26,6 +26,9 @@ All notable changes to this project are documented in this file.
 
 ### Fixed
 
+- Product Get now reports a missing record rather than emitting an empty item if Medusa ever
+  returns an empty envelope for it, matching every other Get in the node.
+
 - The credential test probed `GET /admin/users/me`, which returns 404 for a valid secret API key
   because such a key authenticates as an API key rather than as a user. Every correct credential
   was reported as broken. It now probes `GET /admin/users?limit=1`.
