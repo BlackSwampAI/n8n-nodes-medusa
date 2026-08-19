@@ -60,9 +60,32 @@ supply a Product ID and the node switches to that product's own route instead.
 Medusa will not invent option values. A variant can only use option values already declared on its
 product, so add the value to the product first if it is new.
 
+### Product Category
+
+| Operation    | Notes                                                                  |
+| ------------ | ---------------------------------------------------------------------- |
+| Create       | Requires a name                                                        |
+| Get          | By ID                                                                  |
+| Get Many     | Filter by search, handle, parent category, active and internal flags   |
+| Update       | Name, description, handle, ranking, parent, visibility flags, metadata |
+| Delete       | By ID                                                                  |
+| Add Products | Add and remove products in one call                                    |
+
+Medusa creates categories **inactive**. Set Is Active for the category to appear in a storefront.
+
+### Product Collection
+
+| Operation    | Notes                               |
+| ------------ | ----------------------------------- |
+| Create       | Requires a title                    |
+| Get          | By ID                               |
+| Get Many     | Filter by search, title, handle     |
+| Update       | Title, handle, metadata             |
+| Delete       | By ID                               |
+| Add Products | Add and remove products in one call |
+
 More resources are being added a milestone at a time. Planned for the first release:
 
-- **Catalog** — Product Category, Product Collection
 - **Customers** — Customer, Customer Group
 - **Orders** — read, update, cancel, complete, archive, and order fulfillment actions
 - **Inventory** — Inventory Item, location levels, Stock Location
