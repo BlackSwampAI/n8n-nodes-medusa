@@ -84,9 +84,36 @@ Medusa creates categories **inactive**. Set Is Active for the category to appear
 | Delete       | By ID                               |
 | Add Products | Add and remove products in one call |
 
+### Customer
+
+| Operation  | Notes                                                                            |
+| ---------- | -------------------------------------------------------------------------------- |
+| Create     | Requires an email                                                                |
+| Get        | By ID                                                                            |
+| Get Many   | Filter by search, exact email, company, account status, and created/updated date |
+| Update     | Email, name, company, phone, metadata                                            |
+| Delete     | By ID                                                                            |
+| Set Groups | Add and remove group membership in one call                                      |
+
+Medusa will accept a customer with no fields at all, creating a record that cannot be contacted or
+matched against an existing one. The node requires an email to prevent that.
+
+### Customer Group
+
+| Operation     | Notes                                      |
+| ------------- | ------------------------------------------ |
+| Create        | Requires a name                            |
+| Get           | By ID                                      |
+| Get Many      | Filter by search, exact name, created date |
+| Update        | Name, metadata                             |
+| Delete        | By ID                                      |
+| Set Customers | Add and remove members in one call         |
+
+Membership can be changed from either end — Customer → Set Groups, or Customer Group → Set
+Customers — whichever fits the workflow better.
+
 More resources are being added a milestone at a time. Planned for the first release:
 
-- **Customers** — Customer, Customer Group
 - **Orders** — read, update, cancel, complete, archive, and order fulfillment actions
 - **Inventory** — Inventory Item, location levels, Stock Location
 - **Commerce configuration** — Region, Sales Channel, Price List, Promotion

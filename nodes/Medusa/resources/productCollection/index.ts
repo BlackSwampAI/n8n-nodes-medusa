@@ -7,6 +7,7 @@ import {
 	makeGet,
 	makeGetAll,
 	makeUpdate,
+	buildListQuery,
 	type CrudConfig,
 } from '../../shared/crud';
 import type { OperationHandlers } from '../../shared/types';
@@ -220,12 +221,7 @@ function updateBody(context: IExecuteFunctions, index: number): IDataObject {
 	return { ...(context.getNodeParameter('updateFields', index, {}) as IDataObject) };
 }
 
-export function buildCollectionQuery(filters: IDataObject, options: IDataObject): IDataObject {
-	const query: IDataObject = { ...filters };
-	if (options.fields) query.fields = options.fields;
-	if (options.order) query.order = options.order;
-	return query;
-}
+export const buildCollectionQuery = buildListQuery;
 
 export const collectionOperations: OperationHandlers = {
 	addProducts: makeAssign(config, 'products', {

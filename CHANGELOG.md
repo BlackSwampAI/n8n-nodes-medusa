@@ -6,6 +6,8 @@ All notable changes to this project are documented in this file.
 
 ### Added
 
+- Customer and Customer Group resources with Create, Get, Get Many, Update, Delete, and
+  membership operations that work from either side of the relationship.
 - Product Category and Product Collection resources, each with Create, Get, Get Many, Update,
   Delete and an Add Products operation that adds and removes members in one call.
 - Product Variant resource with Create, Get, Get Many, Update and Delete operations, addressed
