@@ -1,4 +1,12 @@
-import { NodeConnectionTypes, type INodeType, type INodeTypeDescription } from 'n8n-workflow';
+import {
+	NodeConnectionTypes,
+	type IExecuteFunctions,
+	type INodeExecutionData,
+	type INodeType,
+	type INodeTypeDescription,
+} from 'n8n-workflow';
+import { productDescription } from './resources/product';
+import { routeOperations } from './shared/router';
 
 export class Medusa implements INodeType {
 	description: INodeTypeDescription = {
@@ -21,14 +29,20 @@ export class Medusa implements INodeType {
 				required: true,
 			},
 		],
-		requestDefaults: {
-			baseURL: '={{ $credentials.baseUrl.replace(/\\/+$/, "") }}',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
+		properties: [
+			{
+				displayName: 'Resource',
+				name: 'resource',
+				type: 'options',
+				noDataExpression: true,
+				default: 'product',
+				options: [{ name: 'Product', value: 'product' }],
 			},
-		},
-		// Resources and operations are added per milestone, starting with Product.
-		properties: [],
+			...productDescription,
+		],
 	};
+
+	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
+		return routeOperations.call(this);
+	}
 }

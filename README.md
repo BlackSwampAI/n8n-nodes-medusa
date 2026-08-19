@@ -27,12 +27,25 @@ Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes
 
 ## Operations
 
-The node targets Medusa's Admin API. Support is being added a resource at a time; this section
-lists what is available in the current release.
+### Product
 
-No operations are available yet. The first release will cover:
+| Operation | Notes                                                                                                 |
+| --------- | ----------------------------------------------------------------------------------------------------- |
+| Create    | Requires a title and at least one priced variant                                                      |
+| Get       | By ID, with optional field selection and relation expansion                                           |
+| Get Many  | Filter by search, status, handle, category, collection, and created/updated date; Return All or Limit |
+| Update    | Any subset of title, subtitle, description, handle, status, discountable, external ID and metadata    |
+| Delete    | By ID                                                                                                 |
 
-- **Catalog** — Product, Product Variant, Product Category, Product Collection
+Medusa requires every product to declare at least one option axis, and every variant to carry
+matching option values. Rather than make that mandatory, the node derives a single axis from your
+variant titles, so creating a product needs only a title, a variant name and a price. Products
+that genuinely vary along several dimensions — size _and_ colour — can supply the axes explicitly
+through the Product Options and Variant Options fields.
+
+More resources are being added a milestone at a time. Planned for the first release:
+
+- **Catalog** — Product Variant, Product Category, Product Collection
 - **Customers** — Customer, Customer Group
 - **Orders** — read, update, cancel, complete, archive, and order fulfillment actions
 - **Inventory** — Inventory Item, location levels, Stock Location
