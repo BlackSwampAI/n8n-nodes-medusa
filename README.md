@@ -11,6 +11,7 @@ installation you control, self-hosted or otherwise.
 
 [Installation](#installation)
 [Operations](#operations)
+[Not in this release](#not-in-this-release)
 [Credentials](#credentials)
 [Compatibility](#compatibility)
 [Known limitations](#known-limitations)
@@ -185,7 +186,54 @@ fulfillments at all**, so Get Many reads them by expanding the order.
 
 A shipped fulfillment cannot be cancelled.
 
-- **Commerce configuration** — Region, Sales Channel, Price List, Promotion
+### Region
+
+| Operation                        | Notes                             |
+| -------------------------------- | --------------------------------- |
+| Create                           | Requires a name and currency code |
+| Get · Get Many · Update · Delete |                                   |
+
+A country belongs to **exactly one region**. Assigning one that another region already covers is
+rejected — the most common surprise when scripting region setup.
+
+### Sales Channel
+
+| Operation                        | Notes                               |
+| -------------------------------- | ----------------------------------- |
+| Create                           | Requires a name                     |
+| Get · Get Many · Update · Delete |                                     |
+| Add Products                     | Add and remove products in one call |
+
+Channel membership is readable from the **product** side (`Product → Get` with
+`fields=id,*sales_channels`), not from the channel.
+
+### Price List
+
+| Operation                        | Notes                                  |
+| -------------------------------- | -------------------------------------- |
+| Create                           | Requires a title **and** a description |
+| Get · Get Many · Update · Delete |                                        |
+| Get Prices                       | Prices in the list                     |
+| Add Prices                       | Add variant prices                     |
+| Add Products                     | Add and remove products in one call    |
+
+### Promotion
+
+| Operation                        | Notes                                                      |
+| -------------------------------- | ---------------------------------------------------------- |
+| Create                           | Code, discount type, value, what it applies to, allocation |
+| Get · Get Many · Update · Delete |                                                            |
+
+Medusa requires a max quantity when the allocation is **Each**, and a currency for a
+**fixed-amount** discount. The node collects both and refuses early rather than letting the request
+fail. Changing the discount itself after creation is not supported — recreate the promotion
+instead.
+
+## Not in this release
+
+Returns, exchanges, claims, order edits and draft orders are multi-step workflows rather than
+CRUD, and each needs its own design. Promotion rule builders, campaigns, reservations, batch
+operations and product import/export are also deferred.
 
 Medusa's Store API — carts, checkout and storefront browsing — is out of scope.
 
@@ -243,7 +291,10 @@ HTTP, which is planned separately.
 
 ### 0.1.0
 
-Initial release.
+First release. Fourteen resources and eighty-five operations covering catalog, customers, orders,
+inventory, fulfillment and commerce configuration.
+
+No trigger — see [Known limitations](#known-limitations).
 
 ## License
 

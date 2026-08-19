@@ -37,3 +37,17 @@ export function toSourcePath(distPath) {
 export function sourceExists(distPath) {
 	return existsSync(resolve(root, toSourcePath(distPath)));
 }
+
+/**
+ * The published README, for checking that documentation keeps up with the node.
+ * @type {string}
+ */
+export const readme = readFileSync(resolve(root, 'README.md'), 'utf8');
+
+/** The node's codex metadata, which n8n reads for categories and documentation links. */
+export const codex = JSON.parse(
+	readFileSync(resolve(root, 'nodes/Medusa/Medusa.node.json'), 'utf8'),
+);
+
+/** package.json, for release checks. */
+export const manifest = packageJson;

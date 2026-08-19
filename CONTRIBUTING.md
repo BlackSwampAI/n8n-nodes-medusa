@@ -120,6 +120,13 @@ importing Medusa packages and reading `process.env`. Keep this directory free of
 **The admin dashboard is disabled** in `test/medusa/medusa-config.ts`. Building it pulls in React
 and Vite and adds minutes to every cold start, and the Admin API does not need it.
 
+**The Medusa version is pinned and its lockfile is committed.** `test/medusa/package-lock.json`
+is checked in and the image builds with `npm ci`, not `npm install`. Pinning the Medusa version
+alone is not enough: its dependency tree floats, and a CI run has already failed with
+`No matching version found for @aws-sdk/client-s3@^3.1114.0` on a documentation-only change,
+because a transitive dependency shifted underneath a build that touched no code. Regenerate the
+lockfile deliberately when upgrading Medusa, in the same commit.
+
 **The Medusa version is pinned** in `test/medusa/package.json`. Medusa ships frequently, and an
 integration suite that silently follows the latest release fails for reasons unrelated to this
 node. Upgrade deliberately.

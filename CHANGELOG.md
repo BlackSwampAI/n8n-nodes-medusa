@@ -2,10 +2,15 @@
 
 All notable changes to this project are documented in this file.
 
-## [Unreleased]
+## [0.1.0] — 2026-08-19
+
+First release. Fourteen resources and eighty-five operations against the Medusa v2 Admin API,
+verified throughout against a real Medusa server rather than mocks.
 
 ### Added
 
+- Committed lockfile for the Medusa test instance, so the integration environment builds
+  deterministically instead of resolving its dependency tree fresh on every run.
 - Region, Sales Channel, Price List and Promotion resources, completing the first release's
   commerce configuration coverage.
 - Order resource with read, update, line items, change history, and the Complete, Cancel and

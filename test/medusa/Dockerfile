@@ -10,8 +10,13 @@ RUN apt-get update \
 
 WORKDIR /app
 
-COPY package.json ./
-RUN npm install --no-audit --no-fund
+# package-lock.json is committed and npm ci is used deliberately. Pinning Medusa's version alone
+# leaves its whole dependency tree floating, so every image build resolved fresh against whatever
+# the registry happened to hold at that moment. That is not a hypothetical: a CI run failed with
+# "No matching version found for @aws-sdk/client-s3@^3.1114.0" on a documentation-only change,
+# because a transitive dependency had shifted underneath a build that touched no code.
+COPY package.json package-lock.json ./
+RUN npm ci --no-audit --no-fund
 
 COPY medusa-config.js tsconfig.json ./
 COPY src ./src
