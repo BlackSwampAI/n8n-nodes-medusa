@@ -144,9 +144,47 @@ to 0 first.
 | Delete             | By ID                                            |
 | Set Sales Channels | Add and remove the channels this location serves |
 
-More resources are being added a milestone at a time. Planned for the first release:
+### Order
 
-- **Orders** — read, update, cancel, complete, archive, and order fulfillment actions
+| Operation                   | Notes                                                                                      |
+| --------------------------- | ------------------------------------------------------------------------------------------ |
+| Get                         | By ID                                                                                      |
+| Get Many                    | Filter by search, status, payment status, fulfillment status, region, created/updated date |
+| Get Line Items              | The order's line items                                                                     |
+| Get Changes                 | The order's change history                                                                 |
+| Update                      | Email and metadata only                                                                    |
+| Complete · Cancel · Archive | State transitions                                                                          |
+
+Medusa has **no create and no delete** for orders. Orders come from checkout, and are cancelled or
+archived rather than removed. Draft orders, which is how an order is authored administratively,
+are a separate 21-endpoint flow planned for a later release.
+
+Status is not an editable field — Medusa rejects it in an update body — so each transition is its
+own operation, and each has preconditions Medusa enforces:
+
+- A completed order **cannot** be cancelled. Use the returns process instead.
+- A cancelled order cannot be completed.
+- An order with active fulfillments cannot be cancelled until those are cancelled first.
+- Either terminal state can be archived.
+
+Some fields, **including `email`, are not returned unless you ask for them by name** in Fields.
+This is easy to mistake for the value being empty.
+
+### Fulfillment
+
+| Operation         | Notes                                 |
+| ----------------- | ------------------------------------- |
+| Create            | Fulfil line items on an order         |
+| Get Many          | The fulfillments of an order          |
+| Create Shipment   | Record that a fulfillment has shipped |
+| Mark as Delivered | Record delivery                       |
+| Cancel            | Only while unshipped                  |
+
+Fulfillments are always addressed through their order. Medusa has **no read endpoint for
+fulfillments at all**, so Get Many reads them by expanding the order.
+
+A shipped fulfillment cannot be cancelled.
+
 - **Commerce configuration** — Region, Sales Channel, Price List, Promotion
 
 Medusa's Store API — carts, checkout and storefront browsing — is out of scope.
