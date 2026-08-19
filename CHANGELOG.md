@@ -6,6 +6,10 @@ All notable changes to this project are documented in this file.
 
 ### Added
 
+- Shared transport for the Medusa Admin API: base URL normalisation, a reusable pagination loop
+  over Medusa's `limit`/`offset`/`count` envelope, and error mapping that tells authentication
+  failures, missing records, validation failures and connection problems apart.
+- Shared `Return All` / `Limit` and list `Options` field definitions for resource operations.
 - Medusa node and `medusaApi` credential scaffold targeting the Medusa v2 Admin API.
 - Disposable Medusa integration environment (`docker-compose.yml`, `test/medusa/`) with
   `npm run medusa:up` and `npm run medusa:down`, which bootstrap an admin user and a secret API
