@@ -2,6 +2,14 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.1.1] — 2026-08-20
+
+### Changed
+
+- Node and credential icon replaced with Medusa's official brand mark, in matching light and
+  dark variants. The previous placeholder was a generic line cube close enough to n8n's own
+  fallback icon that the node looked unbranded on the canvas.
+
 ## [0.1.0] — 2026-08-19
 
 First release. Fourteen resources and eighty-five operations against the Medusa v2 Admin API,
