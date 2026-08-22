@@ -1,9 +1,9 @@
 {
 	"name": "@blackswampai/n8n-nodes-medusa",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "n8n community node for the Medusa commerce Admin API, with first-class self-hosted support",
 	"license": "MIT",
-	"homepage": "https://github.com/BlackSwampAI/n8n-nodes-medusa#readme",
+	"homepage": "https://blackswampai.com/n8n-nodes/medusa/",
 	"keywords": [
 		"n8n-community-node-package",
 		"n8n",
