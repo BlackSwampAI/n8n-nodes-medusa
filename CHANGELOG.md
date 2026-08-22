@@ -2,15 +2,6 @@
 
 All notable changes to this project are documented in this file.
 
-## [0.1.2] — 2026-08-22
-
-### Changed
-
-- `homepage` now points to the package's documentation page at
-  <https://blackswampai.com/n8n-nodes/medusa/> instead of the GitHub README.
-  Metadata only: the package name, node paths, dependencies, and behaviour are
-  unchanged.
-
 ## [0.1.1] — 2026-08-20
 
 ### Changed
