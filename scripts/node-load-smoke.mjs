@@ -6,9 +6,9 @@ const manifest = JSON.parse(readFileSync(resolve(root, 'package.json'), 'utf8'))
 const require = createRequire(import.meta.url);
 function assertIcons(registration, icon, owner) {
 	const icons = typeof icon === 'string' ? [icon] : [icon?.light, icon?.dark];
-	const declaredIcons = icons.filter(Boolean);
-	if (declaredIcons.length === 0) throw new Error(`Packaged icon is required for ${owner}`);
-	for (const value of declaredIcons) {
+	if (typeof icon === 'string' ? !icon : icons.some((value) => !value))
+		throw new Error(`Every packaged icon variant is required for ${owner}`);
+	for (const value of icons) {
 		if (!value.startsWith('file:'))
 			throw new Error(`Packaged icon must use a file: SVG or PNG reference: ${value}`);
 		const path = resolve(root, registration, '..', value.slice(5));

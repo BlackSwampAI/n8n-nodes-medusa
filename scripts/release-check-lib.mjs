@@ -6,9 +6,9 @@ export function supportsNpmTrustedPublishing(version) {
 }
 
 export function githubTagFailure(version, environment = process.env) {
-	if (!environment.GITHUB_REF) return undefined;
+	if (environment.GITHUB_REF_TYPE !== 'tag') return undefined;
 	const expected = `v${version}`;
-	if (environment.GITHUB_REF_TYPE !== 'tag' || environment.GITHUB_REF_NAME !== expected)
+	if (environment.GITHUB_REF_NAME !== expected)
 		return `GitHub tag must exactly match package version ${expected}`;
 	return undefined;
 }

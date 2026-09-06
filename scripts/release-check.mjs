@@ -26,6 +26,10 @@ if (
 )
 	fail('Template v2 marker is invalid');
 if (pkg.name !== '@blackswampai/n8n-nodes-medusa') fail('package identity is invalid');
+if (pkg.homepage !== 'https://blackswampai.com/n8n-nodes/medusa/')
+	fail('package homepage is invalid');
+if (pkg.bugs?.url !== 'https://github.com/BlackSwampAI/n8n-nodes-medusa/issues')
+	fail('package bugs URL is invalid');
 if (!/^(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)$/.test(pkg.version ?? ''))
 	fail('version must be plain semver');
 if (lock.version !== pkg.version || lock.packages?.['']?.version !== pkg.version)

@@ -6,18 +6,35 @@ import { describe, expect, it } from 'vitest';
 import { prepareNpmAuth } from './prepare-npm-auth.mjs';
 import { githubTagFailure, supportsNpmTrustedPublishing } from './release-check-lib.mjs';
 import { isDeterministicSecurityFailure, isLikelyPropagationFailure } from './scan-policy.mjs';
+import packageJson from '../package.json';
 
 describe('release hardening', () => {
-	it('enforces npm and exact tag versions', () => {
+	it('enforces npm and exact versions only for true tag refs', () => {
 		expect(supportsNpmTrustedPublishing('11.5.1')).toBe(true);
 		expect(supportsNpmTrustedPublishing('11.5.0')).toBe(false);
+		expect(githubTagFailure(packageJson.version, {})).toBeUndefined();
 		expect(
-			githubTagFailure('0.1.1', {
-				GITHUB_REF: 'refs/tags/v0.1.2',
-				GITHUB_REF_TYPE: 'tag',
-				GITHUB_REF_NAME: 'v0.1.2',
+			githubTagFailure(packageJson.version, {
+				GITHUB_REF: 'refs/pull/16/merge',
+				GITHUB_REF_TYPE: 'branch',
+				GITHUB_REF_NAME: '16/merge',
 			}),
-		).toContain('v0.1.1');
+		).toBeUndefined();
+		const expected = `v${packageJson.version}`;
+		expect(
+			githubTagFailure(packageJson.version, {
+				GITHUB_REF: `refs/tags/${expected}`,
+				GITHUB_REF_TYPE: 'tag',
+				GITHUB_REF_NAME: expected,
+			}),
+		).toBeUndefined();
+		expect(
+			githubTagFailure(packageJson.version, {
+				GITHUB_REF: 'refs/tags/v9.9.9',
+				GITHUB_REF_TYPE: 'tag',
+				GITHUB_REF_NAME: 'v9.9.9',
+			}),
+		).toContain(expected);
 	});
 
 	it('removes only setup-node empty auth for OIDC', () => {
@@ -36,9 +53,12 @@ describe('release hardening', () => {
 	});
 
 	it('retries only exact propagation failures', () => {
-		const spec = '@blackswampai/n8n-nodes-medusa@0.1.1';
+		const spec = `${packageJson.name}@${packageJson.version}`;
 		expect(
-			isLikelyPropagationFailure(`Reason: No package metadata found for version 0.1.1`, spec),
+			isLikelyPropagationFailure(
+				`Reason: No package metadata found for version ${packageJson.version}`,
+				spec,
+			),
 		).toBe(true);
 		expect(
 			isLikelyPropagationFailure(`Reason: No package metadata found for version 0.1.0`, spec),
