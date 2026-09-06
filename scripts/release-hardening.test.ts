@@ -64,6 +64,18 @@ describe('release hardening', () => {
 			isLikelyPropagationFailure(`Reason: No package metadata found for version 0.1.0`, spec),
 		).toBe(false);
 		expect(
+			isLikelyPropagationFailure(
+				"Reason: Could not fetch the source repository recorded in the package's npm provenance (Request failed with status code 404). The scan lints the attested source, so it must be reachable",
+				spec,
+			),
+		).toBe(true);
+		expect(
+			isLikelyPropagationFailure(
+				"Reason: Could not fetch the source repository recorded in the package's npm provenance (Request failed with status code 403).",
+				spec,
+			),
+		).toBe(false);
+		expect(
 			isDeterministicSecurityFailure(
 				`Package ${spec} has failed security checks\nReason: ESLint violations found\n404:3 error`,
 				spec,
