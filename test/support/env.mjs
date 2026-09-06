@@ -6,6 +6,7 @@
 // TypeScript everywhere else.
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { validateDisposableMedusaConfiguration } from './live-guard.mjs';
 
 function fromEnvFile() {
 	const path = resolve(import.meta.dirname, '../../.env.test');
@@ -27,5 +28,11 @@ export const medusaBaseUrl = process.env.MEDUSA_BASE_URL ?? fileValues.MEDUSA_BA
 /** Secret API key for the Medusa server under test, or undefined when none is configured. */
 export const medusaApiToken = process.env.MEDUSA_API_TOKEN ?? fileValues.MEDUSA_API_TOKEN;
 
-/** True when a Medusa server is configured, so integration tests can skip instead of fail. */
-export const hasMedusa = Boolean(medusaBaseUrl && medusaApiToken);
+const configured = validateDisposableMedusaConfiguration(
+	medusaBaseUrl,
+	medusaApiToken,
+	process.env.MEDUSA_DISPOSABLE_TEST_ENV,
+);
+
+/** True only when an explicitly marked disposable loopback Medusa server is configured. */
+export const hasMedusa = Boolean(configured && medusaBaseUrl && medusaApiToken);

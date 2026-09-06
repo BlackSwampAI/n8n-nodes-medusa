@@ -2,6 +2,8 @@
 
 This is an n8n community node. It lets you use [Medusa](https://medusajs.com/) in your n8n workflows.
 
+> This is an independent Black Swamp AI community integration. It is not affiliated with, endorsed by, sponsored by, or maintained by Medusa. The Medusa name and logo belong to their respective owner(s) and are used only to identify compatibility.
+
 Medusa is an open source, self-hostable commerce platform built as a modular set of commerce
 primitives — products, orders, inventory, fulfillment, pricing and promotions — exposed through
 an API-first Admin API. This node targets that Admin API, so it works against any Medusa
@@ -286,6 +288,9 @@ HTTP, which is planned separately.
 - [n8n community nodes documentation](https://docs.n8n.io/integrations/#community-nodes)
 - [Medusa Admin API reference](https://docs.medusajs.com/api/admin)
 - [Medusa documentation](https://docs.medusajs.com/)
+- [API and observed-behavior matrix](docs/api-matrix.md)
+- [Testing and qualification](docs/testing.md)
+- [Branding provenance](docs/branding.md)
 
 ## Version history
 

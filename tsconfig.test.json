@@ -7,7 +7,14 @@
 		"module": "esnext",
 		"moduleResolution": "bundler",
 		"allowJs": true,
-		"types": ["node"]
+		"types": ["node", "vitest/globals"]
 	},
-	"include": ["credentials/**/*", "nodes/**/*", "test/**/*", "vitest.config.mjs"]
+	"include": [
+		"credentials/**/*",
+		"nodes/**/*",
+		"test/**/*",
+		"scripts/**/*.test.ts",
+		"vitest.config.mjs"
+	],
+	"exclude": []
 }
