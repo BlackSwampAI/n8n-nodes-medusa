@@ -6,7 +6,7 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
 	test: {
 		environment: 'node',
-		include: ['test/**/*.test.ts'],
+		include: ['test/**/*.test.ts', 'scripts/**/*.test.ts'],
 		// Integration tests talk to one shared Medusa server, so they must not run concurrently
 		// with each other across files.
 		fileParallelism: false,

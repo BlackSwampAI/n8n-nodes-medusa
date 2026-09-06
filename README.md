@@ -1,6 +1,12 @@
 # @blackswampai/n8n-nodes-medusa
 
-This is an n8n community node. It lets you use [Medusa](https://medusajs.com/) in your n8n workflows.
+[![npm version](https://img.shields.io/npm/v/%40blackswampai%2Fn8n-nodes-medusa.svg)](https://www.npmjs.com/package/@blackswampai/n8n-nodes-medusa)
+[![CI](https://github.com/BlackSwampAI/n8n-nodes-medusa/actions/workflows/ci.yml/badge.svg)](https://github.com/BlackSwampAI/n8n-nodes-medusa/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
+
+An n8n community integration for the Medusa v2 Admin API, with first-class self-hosted support.
+
+> This is an independent Black Swamp AI community integration. It is not affiliated with, endorsed by, sponsored by, or maintained by Medusa. The Medusa name and logo belong to their respective owner(s) and are used only to identify compatibility.
 
 Medusa is an open source, self-hostable commerce platform built as a modular set of commerce
 primitives — products, orders, inventory, fulfillment, pricing and promotions — exposed through
@@ -9,22 +15,16 @@ installation you control, self-hosted or otherwise.
 
 [n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
 
-[Installation](#installation)
-[Operations](#operations)
-[Not in this release](#not-in-this-release)
-[Credentials](#credentials)
-[Compatibility](#compatibility)
-[Known limitations](#known-limitations)
-[Resources](#resources)
-[Version history](#version-history)
+[Installation](#installation) · [Operations](#operations) · [Credentials](#credentials) ·
+[Compatibility](#compatibility) · [Known limitations](#known-limitations) ·
+[Troubleshooting](#troubleshooting) · [Resources](#resources) ·
+[Black Swamp AI](https://blackswampai.com/n8n-nodes/medusa/)
 
 ## Installation
 
-Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) in the n8n community nodes documentation, using the package name:
-
-```
-@blackswampai/n8n-nodes-medusa
-```
+On the n8n canvas, open the nodes panel, search for **Medusa**, select it under **More from the
+community**, and choose **Install**. On self-hosted n8n, administrators may alternatively install
+the exact package name `@blackswampai/n8n-nodes-medusa` through Community Nodes settings.
 
 ## Operations
 
@@ -281,20 +281,30 @@ route an external system can call to subscribe. This node therefore has no trigg
 action node. Event-driven support depends on a companion Medusa plugin that forwards events over
 HTTP, which is planned separately.
 
+## Troubleshooting
+
+- Use the Medusa server root as Base URL; do not append `/admin`.
+- Use a secret API key, not a publishable storefront key.
+- Some Admin API fields are omitted unless requested through **Fields**; an absent field is not
+  necessarily empty.
+- For delete workflows that must distinguish “removed now” from “already absent,” Get the record
+  first because Medusa reports both cases as deleted.
+
 ## Resources
 
 - [n8n community nodes documentation](https://docs.n8n.io/integrations/#community-nodes)
 - [Medusa Admin API reference](https://docs.medusajs.com/api/admin)
 - [Medusa documentation](https://docs.medusajs.com/)
+- [API and observed-behavior matrix](docs/api-matrix.md)
+- [Testing and qualification](docs/testing.md)
+- [Branding provenance](docs/branding.md)
+- [Version history](CHANGELOG.md)
 
-## Version history
+## Release provenance
 
-### 0.1.0
-
-First release. Fourteen resources and eighty-five operations covering catalog, customers, orders,
-inventory, fulfillment and commerce configuration.
-
-No trigger — see [Known limitations](#known-limitations).
+Releases are published only from immutable version tags through GitHub Actions with npm
+provenance. The official n8n scanner checks source and built artifacts before publication and the
+published registry package afterward.
 
 ## License
 

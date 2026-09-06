@@ -2,6 +2,18 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.1.2] — 2026-09-06
+
+### Fixed
+
+- Release audit now distinguishes pull-request refs from true version tags, while retaining exact
+  tag-to-package-version enforcement for publication.
+
+### Changed
+
+- Aligned npm homepage, issue metadata, README, package/load validation, and release qualification
+  with the current Black Swamp community-node baseline.
+
 ## [0.1.1] — 2026-08-20
 
 ### Changed
