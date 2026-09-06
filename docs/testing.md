@@ -7,3 +7,8 @@ Integration tests are destructive and fail closed unless `MEDUSA_BASE_URL` is lo
 Package smokes use no real credentials. Actual n8n browser/editor interaction and current hosted Medusa compatibility remain separate human qualification items; this migration adds no new editor evidence.
 
 After submitting only the exact published version, visually record the Creator Portal card version and logo. Tarball icon checks cannot prove portal rendering or freshness.
+
+The published-package scanner retries only narrowly recognized propagation failures. This includes
+the short-lived 404 observed when npm provenance was already present but its newly attested public
+GitHub source was not yet fetchable; policy, lint, authorization, and unrelated failures remain
+immediate.

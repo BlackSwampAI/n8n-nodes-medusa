@@ -3,7 +3,10 @@ export function isLikelyPropagationFailure(output, packageSpec) {
 	const metadata = /^Reason: No package metadata found for version (\S+)\s*$/m.exec(output);
 	return (
 		metadata?.[1] === version ||
-		/^Reason: Analysis failed: Request failed with status code 404\s*$/m.test(output)
+		/^Reason: Analysis failed: Request failed with status code 404\s*$/m.test(output) ||
+		output.includes(
+			"Could not fetch the source repository recorded in the package's npm provenance (Request failed with status code 404)",
+		)
 	);
 }
 export function isDeterministicSecurityFailure(output, packageSpec) {
